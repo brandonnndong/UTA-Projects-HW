@@ -4,7 +4,7 @@ public class Quizzer{
     Quiz quiz = new Quiz();
     quiz.takeQuiz();
 
-    }catch(Exception e){
+    }catch(IllegalArgumentException e){
         System.err.println("Invalid input");
     }
 }
