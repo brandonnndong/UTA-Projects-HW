@@ -1,28 +1,29 @@
+package full_credit;
 import java.util.Scanner;
 
-public class Quiz{
+class Quiz{
 	public Quiz(){
-		Quiz.loadQuiz();
+		loadQuiz();
 	}
 	private static void loadQuiz(){
 		Question.question();
-		Quiz.takeQuiz();
+		Quiz quiz = new Quiz();
+		quiz.takeQuiz();
 	}
 	
-	public static void takeQuiz(Question [] questions){
+	public void takeQuiz(){
 		int score = 0;
 		try (Scanner proposedAnswer = new Scanner(System.in)) {
-			for(int i = 0; i < questions.length; i++){
-				System.out.println(Question.question());
-				String answers =  proposedAnswer.nextLine();
-				if(answers.equals(questions[i].answers)){
+			for(int i = 0; i < 2; i++){
+				int givenAnswer = proposedAnswer.nextInt(); proposedAnswer.nextLine();
+				if(givenAnswer == 1){
 					score++;
 				}
 			}
-		} 
+		}
 			System.out.println("Your grade is: " + score);
+		} 
 	}
-    public static void takeQuiz() {
-    }
+    
  	
- }
+ 
