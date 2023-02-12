@@ -1,19 +1,22 @@
 abstract class Product{
     protected double cost;
     protected String name;
-    private int iNum;
-    private static int inumber = 1;
+    protected int num;
 
-    public void product(double cost, String name){
-        this.iNum = inumber++;
-
+    public void product(double cost, String name, int num){
         this.cost = cost;
         this.name = name;
+        this.num = num;
+
     }
+    
     public abstract double price();
 
     @Override
     public String toString(){
-        return "\n" + this.iNum + ") " + name + " (" + cost + ")\t\t" + price();
+        StringBuilder result = new StringBuilder("\n" + num + ") " + name + 
+        " ($" + cost + ")\t\t" + "$" + price());
+        return result.toString();
     }
+    
 }
