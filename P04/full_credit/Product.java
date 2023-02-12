@@ -15,7 +15,7 @@ abstract class Product{
     @Override
     public String toString(){
         StringBuilder result = new StringBuilder("\n" + num + ") " + name + 
-        " ($" + cost + ")\t\t" + "$" + price());
+        " ($" + cost + ")\t\t\t" + "$" + price());
         return result.toString();
     }
     
