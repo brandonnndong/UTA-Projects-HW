@@ -1,5 +1,5 @@
 public class Taxed extends Product{
-    public static double salesTaxRate = Double.NaN;
+    
     
     public Taxed(double cost, String name, int num){
         super();
@@ -7,7 +7,7 @@ public class Taxed extends Product{
         this.name = name;
         this.num = num;
     }
-
+    public static double salesTaxRate = 0.07352;
     public static double setTaxRate(double salesTaxRate){
         return salesTaxRate;
     }

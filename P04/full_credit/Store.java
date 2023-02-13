@@ -16,7 +16,7 @@ public class Store{
             products.add(new Taxfree(2.17, "Croissants",4));
             products.add(new Taxfree(5.62, "Nuts",5));
 
-            Taxed.setTaxRate(0.0765);
+            //Taxed.setTaxRate(0.0765);
             System.out.println("========================");
             System.out.println("  Welcome to the Store  ");
             System.out.println("========================");
