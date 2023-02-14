@@ -5,7 +5,7 @@ import java.util.Scanner;
  * add total price -- make total price add the whole sum of prices and not print after each item printed
  */
 
-public class Store{
+ public class Store{
     public static void main(String[] args){
         try (Scanner in = new Scanner(System.in)) {
             ArrayList<Product> products = new ArrayList<>();
@@ -45,8 +45,7 @@ public class Store{
                             System.out.println("\n\n" + "Current Order" + "\n" + "-------------");
                             for(Product s : shoppingCart){
                                 System.out.printf(s + "$%2.2f" + "\n" + "total price: $%2.2f",s.price(),s.price());
-                            }
-                            
+                            }        
                             }else{
                                 System.exit(-1);
                             }
