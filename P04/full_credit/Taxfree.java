@@ -10,5 +10,4 @@ public class Taxfree extends Product{
     public double price(){
         return cost;
     }
-    //private ArrayList<Product> products = new ArrayList<>();
 }

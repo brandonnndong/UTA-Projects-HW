@@ -2,19 +2,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 /*
  * things to fix -
- * taxed output to 0.00 decimel places
- * add total price
- * fix user input from having to input the same number
+ * add total price -- make total price add the whole sum of prices and not print after each item printed
  */
 
 public class Store{
     public static void main(String[] args){
         try (Scanner in = new Scanner(System.in)) {
-            Taxed.setTaxRate(0.7235);
             ArrayList<Product> products = new ArrayList<>();
             ArrayList<Product> shoppingCart = new ArrayList<>();
             
-            //Taxed items
+          //Taxed items
             products.add(new Taxed(3.29, "Tissue Box",0));
             products.add(new Taxed(12.94, "Ale",1));
             products.add(new Taxed(4.71, "Candy",2));
@@ -28,7 +25,7 @@ public class Store{
             System.out.println("========================");
 
             for(Product p : products){
-                System.out.print(p);
+                System.out.printf(p + "$%2.2f",p.price());
             }
             System.out.println("\n\n" + "Current Order" + "\n" + "-------------");
                     
@@ -43,13 +40,11 @@ public class Store{
                             System.out.println("========================");
 
                             for(Product p : products){
-                                System.out.print(p);
+                                System.out.printf(p + "$%2.2f",p.price());
                             }
                             System.out.println("\n\n" + "Current Order" + "\n" + "-------------");
                             for(Product s : shoppingCart){
-                               // System.out.print(s);
-                               // System.out.print("\n");
-                                System.out.printf(s + "\n" + "total price: $%2.2f",s.price());
+                                System.out.printf(s + "$%2.2f" + "\n" + "total price: $%2.2f",s.price(),s.price());
                             }
                             
                             }else{
