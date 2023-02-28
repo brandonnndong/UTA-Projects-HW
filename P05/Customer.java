@@ -1,7 +1,7 @@
 public class Customer extends Store{
     public Customer(String name, String email){
         super(name);
-        this.email = email;
+        Customer.email = email;
         String char1 = new String("@");
         String char2 = new String(".");
         int checkEmail1 = email.indexOf(char1);
@@ -20,5 +20,5 @@ public class Customer extends Store{
     }
 
     private String name;
-    private String email;
+    static String email;
 }

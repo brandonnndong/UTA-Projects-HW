@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Store {
     public Store(String name) {
-        this.name = name;
+        Store.name = name;
     }
     public String name() {
-        return this.name;
+        return Store.name;
     }
     
     // ///////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ public class Store {
     // ///////////////////////////////////////////////////////////
     // Fields
     
-    private String name;
+    protected static String name;
     private ArrayList<Customer> customers = new ArrayList<>();
     private ArrayList<Option> options = new ArrayList<>();
     private ArrayList<Computer> computers = new ArrayList<>();
