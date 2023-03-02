@@ -1,26 +1,28 @@
-public class Option extends Store{
+public class Option {
+    public Option(String name, long cost) {
+        if(cost < 0) throw new IllegalArgumentException("Negative cost for " + name + ": " + cost);
+        this.name = name;
+        this.cost = cost;
+    }
+    public long cost() {
+        return this.cost;
+    }
+    @Override
+    public String toString() {
+        return name + " ($" + String.format("%.2f", cost / 100.0) + ")";
+    }
+    @Override
+    public boolean equals(Object o) {
+        try {
+            if(this == o) return true;
+            if(this.getClass() != o.getClass()) return false;
+            Option p = (Option) o;
+            return this.name.equals(p.name) && (this.cost == p.cost);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     protected String name;
     protected long cost;
-
-    public Option(String name, long cost){
-        super(name);
-        this.cost = cost;
-        if(cost < 0)throw new RuntimeException("Invalid amount");
-    }
-
-    public long cost(){
-        return cost;
-    }
-
-    @Override
-    public String toString(){
-        return name + " ($" + cost / 100.0 + ")";
-    }
-
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || name() != ((Store) o).name()) return false;
-        return equals(o);//compares both name and cost
-    }
-    
 }

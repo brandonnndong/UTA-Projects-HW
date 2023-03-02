@@ -11,9 +11,9 @@ public class TestStore {
         
         // Test Customer
         Object[] customers = new Object[]{
-            new Customer("Prof Rice", "george.rice@uta.edu")
+            new Customer("Brandon Dong", "quangminh.dong@mavs.uta.edu")
         };
-        store.add(new Customer("Prof Rice", "george.rice@uta.edu"));
+        store.add(new Customer("Brandon Dong", "quangminh.dong@mavs.uta.edu"));
         if(!deepEqualsCustomer(customers, store.customers())) {
             System.err.printf(failFormat, "Customer",
                 Arrays.toString(customers),

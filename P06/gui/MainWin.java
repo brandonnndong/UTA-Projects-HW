@@ -11,11 +11,15 @@ import javax.swing.JLabel;           // text or image holder
 import javax.swing.ImageIcon;        // holds a custom icon
 import javax.swing.SwingConstants;   // useful values for Swing method calls
 
+import store.Customer;
+import store.Store;
+
 import javax.imageio.ImageIO;        // loads an image from a file
 
 import java.io.File;                 // opens a file
 import java.io.IOException;          // reports an error reading from a file
-
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.image.BufferedImage; // holds an image loaded from a file
 
 public class MainWin extends JFrame {
@@ -24,11 +28,6 @@ public class MainWin extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 200);
         
-        // /////// ////////////////////////////////////////////////////////////////
-        // M E N U
-        // Add a menu bar to the PAGE_START area of the Border Layout
-        
-
         JMenuBar menubar = new JMenuBar();
         
         JMenu     file       = new JMenu("File");
@@ -68,31 +67,42 @@ public class MainWin extends JFrame {
         menubar.add(view);
         menubar.add(help);
         setJMenuBar(menubar);
-        
+
+        store = new JLabel("Bswiggie");
+        store.setFont(new Font("SansSerif", Font.BOLD,18));
+        add(store, BorderLayout.CENTER);
+
+        setVisible(true);
+
     }
     
     // Listeners
     protected void onQuitClick() {System.exit(0);}   // Exit the game
     
     protected void onNewStoreClick() {         // Create a new game
-        newStore();
-        msg.setFont(new JLabel().getFont());    // Reset to default font
-        
+       
     }
+
     protected void onInsertCustomerClick(){
-        newStore();
+        try{
+        Customer c = new Customer(JOptionPane.showInputDialog(this, "Customer name", "New Customer", JOptionPane.PLAIN_MESSAGE), 
+        JOptionPane.showInputDialog(this, "Customer email", "New Customer"));
+        System.out.print(c);
+        }catch(Exception e){
+            System.err.println("invalid email");
+        }
     }
 
     protected void onInsertOptionClick(){
-        newStore();
+        
     }
 
     protected void onInsertComputerClick(){
-        newStore();
+       
     }
 
     protected void onViewClick(Record record){
-        newStore();
+       
     }
    
     protected void onAboutClick() {                 // Display About dialog
@@ -124,15 +134,5 @@ public class MainWin extends JFrame {
              JOptionPane.PLAIN_MESSAGE
          );
     }
-
-    private void newStore(){
-
-    }
-    
-    private JLabel msg;                     // Status message display
-    //private JButton button1;                // Button to select 1 stick
-    //private JButton button2;                // Button to select 2 sticks
-    //private JButton button3;                // Button to select 3 sticks
-    //private JToggleButton computerPlayer;   // Button to enable robot
-
+    private JLabel store;
 }

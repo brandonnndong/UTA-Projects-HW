@@ -1,30 +1,39 @@
 import java.util.ArrayList;
 
-public class Order extends Store{
-    public Order(Customer customer){
-        super(name);
-        this.orderNumber = nextOrderNumber++;
+public class Order {
+    public Order(Customer customer) {
         this.customer = customer;
+        this.orderNumber = nextOrderNumber++;
     }
-    
-    public void addComputer(Computer computer){
-        customer.add(computer);
+    public void addComputer(Computer computer) {
+        computers.add(computer);
+    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Order " + orderNumber + " for " + customer);
+        for(Computer c : computers) sb.append("\n\n" + c);
+        return sb.toString();
     }
 
-    public String toString(){
-        return "Order " + orderNumber + " for " + name + " (" + Customer.email + ")"; 
+    @Override
+    public boolean equals(Object o) {
+        try {
+            if(this == o) return true;
+            if(this.getClass() != o.getClass()) return false;
+            Order c = (Order) o;
+            if(!this.customer.equals(c.customer)) return false;
+            if(this.computers.size() != c.computers.size()) return false;
+            for(int i=0; i<this.computers.size(); ++i)
+                if(!this.computers.get(i).equals(c.computers.get(i))) return false;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || computer != o.computer || customer != o.customer) return false;
-        return equals(o);
-
-    }
-    
     private Customer customer;
-    private ArrayList<Computer> computer = new ArrayList<>();//fix
-
-    private static long nextOrderNumber = 0;
     private long orderNumber;
+    private ArrayList<Computer> computers = new ArrayList<>();
+    
+    private static long nextOrderNumber = 0;
 }

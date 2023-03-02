@@ -1,38 +1,38 @@
 import java.util.ArrayList;
 
-public class Computer extends Store{
-    public Computer(String name, String model){
-        super(name);
+public class Computer {
+    public Computer(String name, String model) {
+        this.name = name;
         this.model = model;
-        Computer.options = new ArrayList<>();
     }
-
-    public void addOption(Option option){
+    public void addOption(Option option) {
         options.add(option);
     }
-
-    public static long cost(){
+    public long cost() {
         long cost = 0;
-        for(Option o: options){
-           cost += o.cost();
-        }
+        for(Option o : options) cost += o.cost();
         return cost;
     }
-    
-    public String toString(){
-        return name + model + "\n" + "\tMainboard" + " (" + Computer.cost() / 100.0 + ") " +
-            "\n" + "\tRAM" + " (" + Computer.cost() / 100.0 + ") " +
-            "\n" + "\tSSD" + " (" + Computer.cost() / 100.0 + ") " +
-            "\n" + "\tCse" + " (" + Computer.cost() / 100.0 + ") ";
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(name + " (" + model + "}");
+        for(Option o : options) sb.append("\n  " + o);
+        return sb.toString();
     }
-
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || toString() != o.toString()) return false;
-        return equals(o);
+    
+    @Override
+    public boolean equals(Object o) {
+        try {
+            if(this == o) return true;
+            if(this.getClass() != o.getClass()) return false;
+            Computer c = (Computer) o;
+            return this.toString().equals(c.toString());
+        } catch (Exception e) {
+            return false;
+        }
     }
     
     private String name;
     private String model;
-    private static ArrayList<Option> options;
+    private ArrayList<Option> options = new ArrayList<>();
 }

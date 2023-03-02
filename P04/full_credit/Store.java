@@ -11,7 +11,7 @@ import java.util.Scanner;
             ArrayList<Product> products = new ArrayList<>();
             ArrayList<Product> shoppingCart = new ArrayList<>();
             
-          //Taxed items
+            //Taxed items
             products.add(new Taxed(3.29, "Tissue Box",0));
             products.add(new Taxed(12.94, "Ale",1));
             products.add(new Taxed(4.71, "Candy",2));
