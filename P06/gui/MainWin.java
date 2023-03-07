@@ -2,17 +2,20 @@ package gui;
 
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
-
+import javax.swing.JToolBar;
 import javax.swing.JMenuBar;         // row of menu selections
 import javax.swing.JMenu;            // menu selection that offers another menu
 import javax.swing.JMenuItem;        // menu selection that does something
 
 import javax.swing.JLabel;           // text or image holder
+import javax.swing.Box;
 import javax.swing.ImageIcon;        // holds a custom icon
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.SwingConstants;   // useful values for Swing method calls
+import javax.swing.UIManager;
 
-import store.Customer;
-import store.Store;
+import store.Option;
 
 import javax.imageio.ImageIO;        // loads an image from a file
 
@@ -43,7 +46,7 @@ public class MainWin extends JFrame {
         JMenu     help       = new JMenu("Help");
         JMenuItem about      = new JMenuItem("About");
         
-        quit .addActionListener(event -> onQuitClick());
+        quit.addActionListener(event -> onQuitClick());
         customer.addActionListener(event -> onInsertCustomerClick());
         option.addActionListener(event -> onInsertOptionClick());
         computer.addActionListener(event -> onInsertComputerClick());
@@ -68,40 +71,97 @@ public class MainWin extends JFrame {
         menubar.add(help);
         setJMenuBar(menubar);
 
-        store = new JLabel("Bswiggie");
+        store = new JLabel();
         store.setFont(new Font("SansSerif", Font.BOLD,18));
         add(store, BorderLayout.CENTER);
+
+        
+
+        JToolBar toolbar = new JToolBar();
+
+        ImageIcon ii = new ImageIcon("gui/image.png");
+        button1 = new JButton(new ImageIcon("image.png"));
+        button1.setActionCommand("Insert Customer");
+        button1.setToolTipText("Insert Customer");
+        toolbar.add(button1);
+
+        button2 = new JButton(new ImageIcon("image.png"));
+        button2.setActionCommand("Insert Option");
+        button2.setToolTipText("Insert Option");
+        toolbar.add(button2);
+
+        button3 = new JButton(new ImageIcon("image.png"));
+        button3.setActionCommand("Insert Computer");
+        button3.setToolTipText("Insert Computer");
+        toolbar.add(button3);
+
+        toolbar.add(Box.createHorizontalStrut(25));
+
+        button4 = new JButton(new ImageIcon("image.png"));
+        button4.setActionCommand("View Customers");
+        button4.setToolTipText("View Customers");
+        toolbar.add(button4);
+        
+        button5 = new JButton(new ImageIcon("image.png"));
+        button5.setActionCommand("View Options");
+        button5.setToolTipText("View Options");
+        toolbar.add(button5);
+
+        button6 = new JButton(new ImageIcon("image.png"));
+        button6.setActionCommand("View Computers");
+        button6.setToolTipText("View Computers");
+        toolbar.add(button6);
+
+        getContentPane().add(toolbar, BorderLayout.PAGE_START);
 
         setVisible(true);
 
     }
     
     // Listeners
-    protected void onQuitClick() {System.exit(0);}   // Exit the game
+    protected void onQuitClick(){
+        System.exit(0);
+    }   // Exit the game
     
-    protected void onNewStoreClick() {         // Create a new game
+    protected void onNewStoreClick(){         // Create a new game
        
     }
 
     protected void onInsertCustomerClick(){
         try{
-        Customer c = new Customer(JOptionPane.showInputDialog(this, "Customer name", "New Customer", JOptionPane.PLAIN_MESSAGE), 
-        JOptionPane.showInputDialog(this, "Customer email", "New Customer"));
-        System.out.print(c);
+        JOptionPane.showInputDialog(this, "Customer name", "New Customer"); 
+        JOptionPane.showInputDialog(this, "Customer email", "New Customer");
         }catch(Exception e){
-            System.err.println("invalid email");
+            store.setText("invalid email");
         }
     }
 
     protected void onInsertOptionClick(){
-        
+        try{
+            String name = JOptionPane.showInputDialog("name","name");
+            String cost = JOptionPane.showInputDialog("cost", "cost");
+            Double d = Double.parseDouble(cost);
+            Double dCost = 100 * d;
+            Long c = Double.valueOf(dCost).longValue();
+            Option o = new Option(name, c);
+            System.out.print(o);
+        }catch(Exception e){
+            store.setText("invalid cost");
+        }
     }
 
     protected void onInsertComputerClick(){
-       
+            JOptionPane.showInputDialog(this, "Computer name", "Computer name");
+            JOptionPane.showInputDialog(this, "Model", "Model");
+            /*view = new JComboBox<Object>(options);
+            view.addActionListener(event -> JOptionPane.showConfirmDialog(this, (Object)view.getSelectedItem()));
+            this.add(view);
+            System.out.print(view);
+            this.setVisible(true);*/
     }
 
     protected void onViewClick(Record record){
+        
        
     }
    
@@ -135,4 +195,11 @@ public class MainWin extends JFrame {
          );
     }
     private JLabel store;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
+    private JButton button4;
+    private JButton button5;
+    private JButton button6;
+    //private JComboBox view;
 }
