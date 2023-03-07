@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
+import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.JMenuBar;         // row of menu selections
 import javax.swing.JMenu;            // menu selection that offers another menu
@@ -12,6 +13,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;        // holds a custom icon
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.SwingConstants;   // useful values for Swing method calls
 import javax.swing.UIManager;
 
@@ -29,7 +31,7 @@ public class MainWin extends JFrame {
     public MainWin(String title) {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
+        setSize(1280, 720);
         
         JMenuBar menubar = new JMenuBar();
         
@@ -77,23 +79,26 @@ public class MainWin extends JFrame {
 
         
 
-        JToolBar toolbar = new JToolBar();
+        JToolBar toolbar = new JToolBar("ELSA Controls");
 
         ImageIcon ii = new ImageIcon("gui/image.png");
         button1 = new JButton(new ImageIcon("image.png"));
         button1.setActionCommand("Insert Customer");
         button1.setToolTipText("Insert Customer");
         toolbar.add(button1);
+        button1.addActionListener(event -> onInsertCustomerClick());
 
         button2 = new JButton(new ImageIcon("image.png"));
         button2.setActionCommand("Insert Option");
         button2.setToolTipText("Insert Option");
         toolbar.add(button2);
+        button2.addActionListener(event -> onInsertOptionClick());
 
         button3 = new JButton(new ImageIcon("image.png"));
         button3.setActionCommand("Insert Computer");
         button3.setToolTipText("Insert Computer");
         toolbar.add(button3);
+        button3.addActionListener(event -> onInsertComputerClick());
 
         toolbar.add(Box.createHorizontalStrut(25));
 
@@ -101,16 +106,19 @@ public class MainWin extends JFrame {
         button4.setActionCommand("View Customers");
         button4.setToolTipText("View Customers");
         toolbar.add(button4);
+        button4.addActionListener(event -> onViewClick(Record.CUSTOMER));
         
         button5 = new JButton(new ImageIcon("image.png"));
         button5.setActionCommand("View Options");
         button5.setToolTipText("View Options");
         toolbar.add(button5);
+        button5.addActionListener(event -> onViewClick(Record.OPTION));
 
         button6 = new JButton(new ImageIcon("image.png"));
         button6.setActionCommand("View Computers");
         button6.setToolTipText("View Computers");
         toolbar.add(button6);
+        button6.addActionListener(event -> onViewClick(Record.COMPUTER));
 
         getContentPane().add(toolbar, BorderLayout.PAGE_START);
 
@@ -123,7 +131,7 @@ public class MainWin extends JFrame {
         System.exit(0);
     }   // Exit the game
     
-    protected void onNewStoreClick(){         // Create a new game
+    protected void onNewStoreClick(){         // Create a new store
        
     }
 
@@ -161,8 +169,18 @@ public class MainWin extends JFrame {
     }
 
     protected void onViewClick(Record record){
-        
+        JLabel COMPUTER = new JLabel("<html>"
+        + "<p>Computers</p>"
+        + "<p>1. </p>"
+        + "</html>");
+
+        COMPUTER.setVerticalTextPosition(JLabel.BOTTOM);
+        COMPUTER.setHorizontalTextPosition(JLabel.CENTER);
        
+ 
+        //JOptionPane.showMessageDialog(this, vComputers, "Computerssss", JOptionPane.PLAIN_MESSAGE);
+
+        setVisible(true);
     }
    
     protected void onAboutClick() {                 // Display About dialog
@@ -174,8 +192,9 @@ public class MainWin extends JFrame {
         }
         
         JLabel title = new JLabel("<html>"
-          + "<p><font size=+4>Nim</font></p>"
-          + "<p>Version 1.4J</p>"
+          + "<p><font size=+4>ELSA</font></p>"
+          +"<p>Exceptional Laptops and Supercomputers Always<p>"
+          + "<p>Version 0.1</p>"
            + "</html>",
           SwingConstants.CENTER);
 
