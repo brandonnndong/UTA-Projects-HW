@@ -4,8 +4,8 @@ using namespace std;
 
 int main(){
     string name;
-    cout << "What is your name?";
-    getline (cin, name);
-    cout << "Hello there, " << name << "!" << endl;
+    cout << "What is your name?";   //ask for name
+    getline (cin, name);    //grab name
+    cout << "Hello there, " << name << "!" << endl;     //prints name
     return 0;
 }

@@ -2,12 +2,12 @@
 #include <string>
 
 int main(int args, char* argv[]) {
-    std::string prev_arg;
-    for (int i = 1; i < args; i++) {
-        std::string arg(argv[i]);
-        if (arg != prev_arg) {
-            std::cout << arg << " ";
-            prev_arg = arg;
+    std::string prev;
+    for (int i = 1; i < args; i++) {    //for loop that compares the string of words
+        std::string arg(argv[i]);       //from the current to the previous string
+        if (arg != prev) {              //where if they aren't the same they don't print
+            std::cout << arg << " ";    //vice versa
+            prev = arg;
         }
     }
     std::cout << std::endl;
