@@ -1,14 +1,14 @@
 #include "item.h"
-#include <sstream>
+#include <stdexcept>
 
-Item::Item(const std::string& name, int price) : name_(name), price_(price) {
+Item::Item(std::string name, int price) {
     if (price < 0) {
-        throw std::runtime_error("Price cannot be negative.");
+        throw std::runtime_error("Price cannot be negative");
     }
+    _name = name;
+    _price = price;
 }
 
 std::string Item::to_string() const {
-    std::ostringstream out;
-    out << name_ << " ($" << price_ / 100 << "." << price_ % 100 << ")";
-    return out.str();
+    return _name + " ($" + std::to_string(_price / 100) + "." + std::to_string(_price % 100) + ")";
 }
