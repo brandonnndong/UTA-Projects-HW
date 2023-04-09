@@ -1,24 +1,19 @@
 CXXFLAGS = --std=c++17
 
-info:
-	@echo
-	@printf 'Type e.g., "make auto"  to create program "auto" from auto.cpp\n'
-	@printf 'Type       "make all"   to create every program\n'
-	@printf 'Type       "make clean" to delete every program\n\n'
+all: Vend
 
-read: Item.cpp
-	-$(CXX) $(CXXFLAGS) -o Item Item.cpp
-	@printf "Now type ./Item to execute the result\n\n"
+Vend: Vend.o Item.o Vending_machine.o
+	g++ $(CXXFLAGS) -o Vend Vend.o Item.o Vending_machine.o
+	@printf 'Now type ./vend to execute the vending_machine\n'
 
-stringstreams: Vending_machine.cpp
-	-$(CXX) $(CXXFLAGS) -o Vending_machine Vending_machine.cpp
-	@printf "Now type ./Vending_machine to execute the result\n\n"
+Vend.o: Vend.cpp item.h vending_machine.h
+	g++ $(CXXFLAGS) -c Vend.cpp
 
-write: write.cpp
-	-$(CXX) $(CXXFLAGS) -o Vend Vend.cpp
-	@printf "Now type ./Vend to execute the result\n\n"
+Item.o: item.cpp item.h
+	g++ $(CXXFLAGS) -c item.cpp
 
-all:  Item Vending_machine Vend
+Vending_machine.o: vending_machine.cpp vending_machine.h item.h
+	g++ $(CXXFLAGS) -c vending_machine.cpp
 
 clean:
-	rm -f *.o *.gch a.out  Item Vending_machine Vend test.txt
+	rm -f *.o *.gch *~ a.out Vend

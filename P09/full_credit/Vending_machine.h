@@ -1,18 +1,20 @@
-// Vending_machine.h
 #ifndef VENDING_MACHINE_H
 #define VENDING_MACHINE_H
 
+#include "item.h"
 #include <string>
 #include <vector>
-#include "Item.h"
 
 class Vending_machine {
 public:
-void add(std::string name, double price, int quantity);
-void buy(int index);
-std::string menu();
+    void add(const std::string& name, int price);
+
+    void buy(int index) const;
+
+    std::string menu() const;
+
 private:
-std::vector<Item> items;
+    std::vector<Item> items_;
 };
 
-#endif // VENDING_MACHINE_H
+#endif

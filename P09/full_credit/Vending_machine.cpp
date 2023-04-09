@@ -1,20 +1,20 @@
-#include "Vending_machine.h"
+#include "vending_machine.h"
 #include <iostream>
+#include <sstream>
 
-void Vending_machine::add(std::string name, double price, int quantity) {
-Item item(name, price, quantity);
-items.push_back(item);
+void Vending_machine::add(const std::string& name, int price) {
+    items_.emplace_back(name, price);
 }
 
-void Vending_machine::buy(int index) {
-std::cout << "#### Buying " << items[index].get_name() << std::endl;
-items[index].set_quantity(items[index].get_quantity() - 1);
+void Vending_machine::buy(int index) const {
+    std::cout << "\n#### Buying " << items_[index].to_string() << std::endl;
 }
 
-std::string Vending_machine::menu() {
-std::string result;
-for (int i = 0; i < items.size(); i++) {
-result += std::to_string(i) + ": " + items[i].get_name() + " ($" + std::to_string(items[i].get_price()) + ")\n";
-}
-return result;
+std::string Vending_machine::menu() const {
+    std::ostringstream out;
+    out << "\n======================\nWelcome to UTA Vending\n======================\n";
+    for (int i = 0; i < items_.size(); ++i) {
+        out << i << ": " << items_[i].to_string() << "\n";
+    }
+    return out.str();
 }

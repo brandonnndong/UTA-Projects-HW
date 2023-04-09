@@ -2,16 +2,17 @@
 #define ITEM_H
 
 #include <string>
+#include <stdexcept>
 
 class Item {
 public:
-Item(std::string name, double price);
-std::string get_name() const;
-double get_price() const;
-std::string to_string() const;
+    Item(const std::string& name, int price);
+
+    std::string to_string() const;
+
 private:
-std::string name;
-double price;
+    std::string name_;
+    int price_;
 };
 
-#endif // ITEM_H
+#endif
