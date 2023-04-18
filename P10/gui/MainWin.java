@@ -8,6 +8,8 @@ import store.Order;
 
 import javax.swing.JFrame;           // for main window
 import javax.swing.JOptionPane;      // for standard dialogs
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 // import javax.swing.JDialog;          // for custom dialogs (for alternate About dialog)
 import javax.swing.JMenuBar;         // row of menu selections
 import javax.swing.JMenu;            // menu selection that offers another menu
@@ -42,6 +44,10 @@ import java.awt.FlowLayout;          // layout manager for About dialog
 import java.awt.Color;               // the color of widgets, text, or borders
 import java.awt.Dimension;
 import java.awt.Font;                // rich text in a JLabel or similar widget
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.image.BufferedImage; // holds an image loaded from a file
 
 public class MainWin extends JFrame {
@@ -309,17 +315,58 @@ public class MainWin extends JFrame {
     protected void onQuitClick() {System.exit(0);} 
     
     protected void onInsertCustomerClick() {
-        try { 
-            store.add(new Customer(
-                JOptionPane.showInputDialog(this, "Customer name", "New Customer", JOptionPane.QUESTION_MESSAGE),
-                JOptionPane.showInputDialog(this, "Customer email", "New Customer", JOptionPane.QUESTION_MESSAGE)
-            ));
-            setDirty(true);
-            onViewClick(Record.CUSTOMER);
-        } catch(NullPointerException e) {
-        } catch(Exception e) {
-            JOptionPane.showMessageDialog(this, e, "Customer Not Created", JOptionPane.ERROR_MESSAGE);
-        }    
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        panel.add(new JLabel(new ImageIcon("gui/resources/add_customer.png")), gbc); 
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 5, 0, 0);
+        panel.add(new JLabel("Name"), gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(0, 5, 10, 0);
+        JTextField nameField = new JTextField();
+        panel.add(nameField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0.0;
+        gbc.insets = new Insets(0, 5, 0, 0);
+        panel.add(new JLabel("Email"), gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(0, 5, 0, 0);
+        JTextField emailField = new JTextField();
+        panel.add(emailField, gbc);
+
+        int result = JOptionPane.showConfirmDialog(this, panel, "New Customer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (result == JOptionPane.OK_OPTION) {
+            try { 
+                store.add(new Customer(
+                    nameField.getText(), emailField.getText()));
+                setDirty(true);
+                onViewClick(Record.CUSTOMER);
+            } catch(NullPointerException e) {
+            } catch(Exception e) {
+                JOptionPane.showMessageDialog(this, e, "Customer Not Created", JOptionPane.ERROR_MESSAGE);
+            } 
+        }   
     }
             
     protected void onInsertOptionClick() { 
