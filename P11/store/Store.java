@@ -32,17 +32,22 @@ public class Store {
     public void save(BufferedWriter bw) throws IOException {
         bw.write(name + '\n');
         
-        saveSet(bw, customers);
-        saveSet(bw, options);
-        saveSet(bw, computers);
-        saveSet(bw, orders);
+        bw.write("" + customers.size() + '\n');
+        for(Customer customer : customers)
+            customer.save(bw);
 
-    }
-    private <T extends Saveable> void saveSet(BufferedWriter bw, HashSet<T> set) throws IOException{
-        bw.write(set.size() + "\n");
-        for( var item : set){
-            item.save(bw);
-        }
+        bw.write("" + options.size() + '\n');
+        for(Option option : options)
+            option.save(bw);
+
+        bw.write("" + computers.size() + '\n');
+        for(Computer computer : computers)
+            computer.save(bw);
+
+        bw.write("" + orders.size() + '\n');
+        for(Order order : orders)
+            order.save(bw);
+
     }
     public String name() {
         return this.name;
