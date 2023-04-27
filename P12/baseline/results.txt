@@ -129,14 +129,14 @@ sys  0m0.187s
  Threads 16:
 
 real 0m32.872s
-user 0m33.142s
+user 0m32.942s
 sys  0m0.142s
 
 
 QUESTION 3: Does adding more threads continue to speed up the program? Do more threads ever slow down the program slightly?  Why or why not?
 
-Yes, the program is being processed through more threads.
-Maybe, depending on the system, it can slowdown ie overheat.
+Yes, but when you get to higher threads. It'll only speed up minimally.
+Sometimes, I've noticed it goes through a batch of threads sometimes takes a couple of more seconds. Maybe from getting more threads slows it down.
 
 
 QUESTION 4: Does adding more threads increase the "system load", or is it constant regardless of the number of threads?  Why?
