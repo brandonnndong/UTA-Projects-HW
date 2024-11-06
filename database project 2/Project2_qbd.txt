@@ -1,0 +1,886 @@
+SQL> --Quang Minh Dong
+SQL> --INSY 3304-001
+SQL> --Project 2
+SQL> 
+SQL> -- Drop table
+SQL> BEGIN
+  2  	 EXECUTE IMMEDIATE 'DROP TABLE Appt_qbd';
+  3  	 EXECUTE IMMEDIATE 'DROP TABLE Patient_qbd';
+  4  	 EXECUTE IMMEDIATE 'DROP TABLE Billing_qbd';
+  5  	 EXECUTE IMMEDIATE 'DROP TABLE Treatment_qbd';
+  6  	 EXECUTE IMMEDIATE 'DROP TABLE BlockCode_qbd';
+  7  	 EXECUTE IMMEDIATE 'DROP TABLE AppointmentStatus_qbd';
+  8  	 EXECUTE IMMEDIATE 'DROP TABLE Insurance_qbd';
+  9  	 EXECUTE IMMEDIATE 'DROP TABLE Provider_qbd';
+ 10  	 EXECUTE IMMEDIATE 'DROP TABLE ApptDetail_qbd';
+ 11  EXCEPTION
+ 12  	 WHEN OTHERS THEN
+ 13  	     IF SQLCODE != -942 THEN
+ 14  		 RAISE;
+ 15  	     END IF;
+ 16  END;
+ 17  /
+
+PL/SQL procedure successfully completed.
+
+SQL> -- Part I
+SQL> 
+SQL> CREATE TABLE Appt_qbd (
+  2  	 ApptID NUMBER(5) PRIMARY KEY,
+  3  	 ApptDate DATE,
+  4  	 ApptTime VARCHAR2(8),
+  5  	 PatientID NUMBER(5),
+  6  	 BillingType VARCHAR2(11),
+  7  	 InsCoID NUMBER(5),
+  8  	 ProvID NUMBER(5),
+  9  	 ApptStatusCode VARCHAR2(10),
+ 10  	 PmtStatus VARCHAR2(9)
+ 11  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE Patient_qbd (
+  2  	 PatientID NUMBER(5) PRIMARY KEY,
+  3  	 PatientFName VARCHAR2(20),
+  4  	     PatientLName VARCHAR2(20),
+  5  	 PatientPhone VARCHAR2(10)
+  6  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE Billing_qbd (
+  2  	     BillingType VARCHAR2(11) PRIMARY KEY,
+  3  	     BillingTypeDesc VARCHAR2(20)
+  4  );
+
+Table created.
+
+SQL> --Table created.
+SQL> 
+SQL> CREATE TABLE Treatment_qbd (
+  2  	 TreatmentCode VARCHAR2(5) PRIMARY KEY,
+  3  	 TreatmentDesc VARCHAR2(25),
+  4  	 TreatmentRate NUMBER(10, 2),
+  5  	 BlockCode VARCHAR2(5)
+  6  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE BlockCode_qbd (
+  2  	     BlockCode VARCHAR2(5) PRIMARY KEY,
+  3  	 BlockDesc VARCHAR2(20),
+  4  	 BlockMinutes NUMBER(5)
+  5  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE AppointmentStatus_qbd (
+  2  	 ApptStatusCode VARCHAR2(10) PRIMARY KEY,
+  3  	 ApptStatusDesc VARCHAR2(20)
+  4  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE Insurance_qbd (
+  2  	 InsCoID NUMBER(5) PRIMARY KEY,
+  3  	 InsCoName VARCHAR2(15)
+  4  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE Provider_qbd (
+  2  	 ProvID NUMBER(5) PRIMARY KEY,
+  3  	 ProvFName VARCHAR2(20),
+  4  	     ProvLName VARCHAR2(20)
+  5  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> 
+SQL> CREATE TABLE ApptDetail_qbd (
+  2  	 ApptID NUMBER(5),
+  3  	 TreatmentCode VARCHAR2(5),
+  4  	 PRIMARY KEY (ApptID, TreatmentCode)
+  5  );
+
+Table created.
+
+SQL> -- Table created.
+SQL> SET LINESIZE 150
+SQL> COLUMN TreatmentCode HEADING CODE
+SQL> COLUMN PatientPhone HEADING PHONE
+SQL> 
+SQL> DESCRIBE Appt_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ APPTID                                                                              NOT NULL NUMBER(5)
+ APPTDATE                                                                                     DATE
+ APPTTIME                                                                                     VARCHAR2(8)
+ PATIENTID                                                                                    NUMBER(5)
+ BILLINGTYPE                                                                                  VARCHAR2(11)
+ INSCOID                                                                                      NUMBER(5)
+ PROVID                                                                                       NUMBER(5)
+ APPTSTATUSCODE                                                                               VARCHAR2(10)
+ PMTSTATUS                                                                                    VARCHAR2(9)
+
+SQL> -- Shows the structure of Appt_qbd table.
+SQL> 
+SQL> DESCRIBE Patient_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ PATIENTID                                                                           NOT NULL NUMBER(5)
+ PATIENTFNAME                                                                                 VARCHAR2(20)
+ PATIENTLNAME                                                                                 VARCHAR2(20)
+ PATIENTPHONE                                                                                 VARCHAR2(10)
+
+SQL> -- Shows the structure of Patient_qbd table.
+SQL> 
+SQL> DESCRIBE Billing_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ BILLINGTYPE                                                                         NOT NULL VARCHAR2(11)
+ BILLINGTYPEDESC                                                                              VARCHAR2(20)
+
+SQL> -- Shows the structure of Billing_qbd table.
+SQL> 
+SQL> DESCRIBE Treatment_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ TREATMENTCODE                                                                       NOT NULL VARCHAR2(5)
+ TREATMENTDESC                                                                                VARCHAR2(25)
+ TREATMENTRATE                                                                                NUMBER(10,2)
+ BLOCKCODE                                                                                    VARCHAR2(5)
+
+SQL> -- Shows the structure of Treatment_qbd table.
+SQL> 
+SQL> DESCRIBE BlockCode_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ BLOCKCODE                                                                           NOT NULL VARCHAR2(5)
+ BLOCKDESC                                                                                    VARCHAR2(20)
+ BLOCKMINUTES                                                                                 NUMBER(5)
+
+SQL> -- Shows the structure of BlockCode_qbd table.
+SQL> 
+SQL> DESCRIBE AppointmentStatus_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ APPTSTATUSCODE                                                                      NOT NULL VARCHAR2(10)
+ APPTSTATUSDESC                                                                               VARCHAR2(20)
+
+SQL> -- Shows the structure of AppointmentStatus_qbd table.
+SQL> 
+SQL> DESCRIBE Insurance_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ INSCOID                                                                             NOT NULL NUMBER(5)
+ INSCONAME                                                                                    VARCHAR2(15)
+
+SQL> -- Shows the structure of Insurance_qbd table.
+SQL> 
+SQL> DESCRIBE Provider_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ PROVID                                                                              NOT NULL NUMBER(5)
+ PROVFNAME                                                                                    VARCHAR2(20)
+ PROVLNAME                                                                                    VARCHAR2(20)
+
+SQL> -- Shows the structure of Provider_qbd table.
+SQL> 
+SQL> DESCRIBE ApptDetail_qbd;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ APPTID                                                                              NOT NULL NUMBER(5)
+ TREATMENTCODE                                                                       NOT NULL VARCHAR2(5)
+
+SQL> -- Shows the structure of ApptDetail_qbd table.
+SQL> 
+SQL> -- Part IIA
+SQL> 
+SQL> -- Insert data into Billing_qbd
+SQL> INSERT INTO Billing_qbd (BillingType, BillingTypeDesc)
+  2  VALUES ('I', 'Insurance');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Billing_qbd (BillingType, BillingTypeDesc)
+  2  VALUES ('WC', 'Workers Comp');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Billing_qbd (BillingType, BillingTypeDesc)
+  2  VALUES ('SP', 'Self Pay');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into Insurance_qbd
+SQL> INSERT INTO Insurance_qbd (InsCoID, InsCoName)
+  2  VALUES (323, 'Humana');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Insurance_qbd (InsCoID, InsCoName)
+  2  VALUES (129, 'Blue Cross');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Insurance_qbd (InsCoID, InsCoName)
+  2  VALUES (210, 'State Farm');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Insurance_qbd (InsCoID, InsCoName)
+  2  VALUES (135, 'TriCare');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into Provider_qbd
+SQL> INSERT INTO Provider_qbd (ProvID, ProvFName, ProvLName)
+  2  VALUES (2, 'Michael', 'Smith');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Provider_qbd (ProvID, ProvFName, ProvLName)
+  2  VALUES (5, 'Janice', 'May');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Provider_qbd (ProvID, ProvFName, ProvLName)
+  2  VALUES (1, 'Kay', 'Jones');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Provider_qbd (ProvID, ProvFName, ProvLName)
+  2  VALUES (3, 'Ray', 'Schultz');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into BlockCode_qbd
+SQL> INSERT INTO BlockCode_qbd (BlockCode, BlockDesc, BlockMinutes)
+  2  VALUES ('L1', 'Level 1', 15);
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO BlockCode_qbd (BlockCode, BlockDesc, BlockMinutes)
+  2  VALUES ('L2', 'Level 2', 20);
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO BlockCode_qbd (BlockCode, BlockDesc, BlockMinutes)
+  2  VALUES ('L3', 'Level 3', 30);
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO BlockCode_qbd (BlockCode, BlockDesc, BlockMinutes)
+  2  VALUES ('L4', 'Level 4', 60);
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into AppointmentStatus_qbd
+SQL> INSERT INTO AppointmentStatus_qbd (ApptStatusCode, ApptStatusDesc)
+  2  VALUES ('CM', 'Complete');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO AppointmentStatus_qbd (ApptStatusCode, ApptStatusDesc)
+  2  VALUES ('CN', 'Confirmed');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO AppointmentStatus_qbd (ApptStatusCode, ApptStatusDesc)
+  2  VALUES ('NC', 'Not Confirmed');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO AppointmentStatus_qbd (ApptStatusCode, ApptStatusDesc)
+  2  VALUES ('PD', 'Paid in Full');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO AppointmentStatus_qbd (ApptStatusCode, ApptStatusDesc)
+  2  VALUES ('PP', 'Partial Pmt');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into Treatment_qbd
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('NP', 'New Patient', 45, 'L1');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('GBP', 'General Back Pain', 60, 'L2');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('XR', 'X Ray', 250, 'L2');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('PSF', 'Post Surgery Follow Up', 30, 'L1');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('SR', 'Suture Removal', 50, 'L2');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('PT30', 'Physical Therapy 30', 60, 'L3');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> --INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+SQL> --VALUES ('NP', 'New Patient', 45, 'L1');
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('BI', 'Back Injury', 60, 'L2');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('PT60', 'Physical Therapy 60', 110, 'L4');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into Patient_qbd
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (101, 'Wesley', 'Tanner', '8175551193');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (100, 'Brenda', 'Rhodes', '2145559191');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (15, 'Jeff', 'Miner', '4695552301');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (77, 'Kim', 'Jackson', '8175554911');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (119, 'Mary', 'Vaughn', '8175552334');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (28, 'Renee', 'Walker', '2145559285');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (84, 'James', 'Clayton', '2145559285');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (23, 'Shelby', 'Davis', '8175551198');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Insert data into Appt_qbd
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (101, TO_DATE('20240219 0900 AM', 'YYYYMMDD HH:MI AM'), '0900 AM', 101, 'I', 323, 2, 'CM', 'PD');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (102, TO_DATE('20240219 0900 AM', 'YYYYMMDD HH:MI AM'), '0900 AM', 100, 'I', 129, 5, 'CM', 'PP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (103, TO_DATE('20240219 1000 AM', 'YYYYMMDD HH:MI AM'), '1000 AM', 15, 'SP', 2, 2, 'CM', 'PD');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (104, TO_DATE('20240219 1030 AM', 'YYYYMMDD HH:MI AM'), '1030 AM', 77, 'WC', 210, 1, 'CM', 'PD');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (105, TO_DATE('20240219 1030 AM', 'YYYYMMDD HH:MI AM'), '1030 AM', 119, 'I', 129, 2, 'CM', 'PP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (106, TO_DATE('20240219 1030 AM', 'YYYYMMDD HH:MI AM'), '1030 AM', 97, 'SP', 3, 3, 'CM', 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (107, TO_DATE('20240219 1130 AM', 'YYYYMMDD HH:MI AM'), '1130 AM', 28, 'I', 129, 3, 'CM', 'PP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (108, TO_DATE('20240219 1130 AM', 'YYYYMMDD HH:MI AM'), '1130 AM', 105, 'I', 323, 2, 'CM', 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (109, TO_DATE('20240219 0200 PM', 'YYYYMMDD HH:MI AM'), '0200 PM', 84, 'I', 135, 5, 'CM', 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (110, TO_DATE('20240220 0830 AM', 'YYYYMMDD HH:MI AM'), '0830 AM', 84, 'I', 135, 3, 'NC', 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (111, TO_DATE('20240220 0830 AM', 'YYYYMMDD HH:MI AM'), '0830 AM', 23, 'WC', 323, 5, 'CN', 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> -- Commit complete
+SQL> 
+SQL> -- Part IIB
+SQL> 
+SQL> -- Select all data from Appt_qbd
+SQL> SELECT * FROM Appt_qbd;
+
+    APPTID APPTDATE  APPTTIME  PATIENTID BILLINGTYPE    INSCOID     PROVID APPTSTATUS PMTSTATUS                                                       
+---------- --------- -------- ---------- ----------- ---------- ---------- ---------- ---------                                                       
+       101 19-FEB-24 0900 AM         101 I                  323          2 CM         PD                                                              
+       102 19-FEB-24 0900 AM         100 I                  129          5 CM         PP                                                              
+       103 19-FEB-24 1000 AM          15 SP                   2          2 CM         PD                                                              
+       104 19-FEB-24 1030 AM          77 WC                 210          1 CM         PD                                                              
+       105 19-FEB-24 1030 AM         119 I                  129          2 CM         PP                                                              
+       106 19-FEB-24 1030 AM          97 SP                   3          3 CM         NP                                                              
+       107 19-FEB-24 1130 AM          28 I                  129          3 CM         PP                                                              
+       108 19-FEB-24 1130 AM         105 I                  323          2 CM         NP                                                              
+       109 19-FEB-24 0200 PM          84 I                  135          5 CM         NP                                                              
+       110 20-FEB-24 0830 AM          84 I                  135          3 NC         NP                                                              
+       111 20-FEB-24 0830 AM          23 WC                 323          5 CN         NP                                                              
+
+11 rows selected.
+
+SQL> -- (Display all rows from Appt_qbd)
+SQL> 
+SQL> -- Select all data from Patient_qbd
+SQL> SELECT * FROM Patient_qbd;
+
+ PATIENTID PATIENTFNAME         PATIENTLNAME         PHONE                                                                                            
+---------- -------------------- -------------------- ----------                                                                                       
+       101 Wesley               Tanner               8175551193                                                                                       
+       100 Brenda               Rhodes               2145559191                                                                                       
+        15 Jeff                 Miner                4695552301                                                                                       
+        77 Kim                  Jackson              8175554911                                                                                       
+       119 Mary                 Vaughn               8175552334                                                                                       
+        28 Renee                Walker               2145559285                                                                                       
+        84 James                Clayton              2145559285                                                                                       
+        23 Shelby               Davis                8175551198                                                                                       
+
+8 rows selected.
+
+SQL> -- (Display all rows from Patient_qbd)
+SQL> 
+SQL> -- Select all data from Billing_qbd
+SQL> SELECT * FROM Billing_qbd;
+
+BILLINGTYPE BILLINGTYPEDESC                                                                                                                           
+----------- --------------------                                                                                                                      
+I           Insurance                                                                                                                                 
+WC          Workers Comp                                                                                                                              
+SP          Self Pay                                                                                                                                  
+
+SQL> -- (Display all rows from Billing_qbd)
+SQL> 
+SQL> -- Select all data from Treatment_qbd
+SQL> SELECT * FROM Treatment_qbd;
+
+CODE  TREATMENTDESC             TREATMENTRATE BLOCK                                                                                                   
+----- ------------------------- ------------- -----                                                                                                   
+NP    New Patient                          45 L1                                                                                                      
+GBP   General Back Pain                    60 L2                                                                                                      
+XR    X Ray                               250 L2                                                                                                      
+PSF   Post Surgery Follow Up               30 L1                                                                                                      
+SR    Suture Removal                       50 L2                                                                                                      
+PT30  Physical Therapy 30                  60 L3                                                                                                      
+BI    Back Injury                          60 L2                                                                                                      
+PT60  Physical Therapy 60                 110 L4                                                                                                      
+
+8 rows selected.
+
+SQL> -- (Display all rows from Treatment_qbd)
+SQL> 
+SQL> -- Select all data from BlockCode_qbd
+SQL> SELECT * FROM BlockCode_qbd;
+
+BLOCK BLOCKDESC            BLOCKMINUTES                                                                                                               
+----- -------------------- ------------                                                                                                               
+L1    Level 1                        15                                                                                                               
+L2    Level 2                        20                                                                                                               
+L3    Level 3                        30                                                                                                               
+L4    Level 4                        60                                                                                                               
+
+SQL> -- (Display all rows from BlockCode_qbd)
+SQL> 
+SQL> -- Select all data from AppointmentStatus_qbd
+SQL> SELECT * FROM AppointmentStatus_qbd;
+
+APPTSTATUS APPTSTATUSDESC                                                                                                                             
+---------- --------------------                                                                                                                       
+CM         Complete                                                                                                                                   
+CN         Confirmed                                                                                                                                  
+NC         Not Confirmed                                                                                                                              
+PD         Paid in Full                                                                                                                               
+PP         Partial Pmt                                                                                                                                
+
+SQL> -- (Display all rows from AppointmentStatus_qbd)
+SQL> 
+SQL> -- Select all data from Insurance_qbd
+SQL> SELECT * FROM Insurance_qbd;
+
+   INSCOID INSCONAME                                                                                                                                  
+---------- ---------------                                                                                                                            
+       323 Humana                                                                                                                                     
+       129 Blue Cross                                                                                                                                 
+       210 State Farm                                                                                                                                 
+       135 TriCare                                                                                                                                    
+
+SQL> -- (Display all rows from Insurance_qbd)
+SQL> 
+SQL> -- Select all data from Provider_qbd
+SQL> SELECT * FROM Provider_qbd;
+
+    PROVID PROVFNAME            PROVLNAME                                                                                                             
+---------- -------------------- --------------------                                                                                                  
+         2 Michael              Smith                                                                                                                 
+         5 Janice               May                                                                                                                   
+         1 Kay                  Jones                                                                                                                 
+         3 Ray                  Schultz                                                                                                               
+
+SQL> -- (Display all rows from Provider_qbd)
+SQL> 
+SQL> -- Select all data from ApptDetail_qbd
+SQL> SELECT * FROM ApptDetail_qbd;
+
+no rows selected
+
+SQL> -- (Display all rows from ApptDetail_qbd)
+SQL> 
+SQL> --Part III
+SQL> 
+SQL> -- Update the phone number of Patient 100
+SQL> UPDATE Patient_qbd
+  2  SET PatientPhone = '2145551234'
+  3  WHERE PatientID = 100;
+
+1 row updated.
+
+SQL> -- Row updated
+SQL> 
+SQL> -- Add Patient 120 (Amanda Green, no phone number)
+SQL> INSERT INTO Patient_qbd (PatientID, PatientFName, PatientLName, PatientPhone)
+  2  VALUES (120, 'Amanda', 'Green', NULL);
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Add treatments to the Treatment table
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('CI1', 'Cortizone Injection 1', 50, 'L1');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> INSERT INTO Treatment_qbd (TreatmentCode, TreatmentDesc, TreatmentRate, BlockCode)
+  2  VALUES ('CI2', 'Cortizone Injection 1', 100, 'L1');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Update the appointment date/time for Appt 108
+SQL> UPDATE Appt_qbd
+  2  SET ApptDate = TO_DATE('20240221 1130 AM', 'YYYYMMDD HH:MI AM')
+  3  WHERE ApptID = 108;
+
+1 row updated.
+
+SQL> -- Row updated
+SQL> 
+SQL> -- Change the billing type of Appt 107 to WC
+SQL> UPDATE Appt_qbd
+  2  SET BillingType = 'WC'
+  3  WHERE ApptID = 107;
+
+1 row updated.
+
+SQL> -- Row updated
+SQL> 
+SQL> -- Add a new appointment
+SQL> INSERT INTO Appt_qbd (ApptID, ApptDate, ApptTime, PatientID, BillingType, InsCoID, ProvID, ApptStatusCode, PmtStatus)
+  2  VALUES (112, TO_DATE('20240221 0900 AM', 'YYYYMMDD HH:MI AM'), '0900 AM', 120, 'SP', NULL, 2, 'NC', 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Add treatment codes for Appt 112
+SQL> INSERT INTO ApptDetail_qbd (ApptID, TreatmentCode) VALUES (112, 'NP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> INSERT INTO ApptDetail_qbd (ApptID, TreatmentCode) VALUES (112, 'HP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> INSERT INTO ApptDetail_qbd (ApptID, TreatmentCode) VALUES (112, 'CI2');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Delete the treatment code 'BI' from Appt 105
+SQL> DELETE FROM ApptDetail_qbd
+  2  WHERE ApptID = 105 AND TreatmentCode = 'BI';
+
+0 rows deleted.
+
+SQL> -- Row deleted
+SQL> 
+SQL> -- Add treatment code 'GBP' for Appt 105
+SQL> INSERT INTO ApptDetail_qbd (ApptID, TreatmentCode)
+  2  VALUES (105, 'GBP');
+
+1 row created.
+
+SQL> -- Row inserted
+SQL> 
+SQL> -- Commit the transactions
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> -- Commit complete
+SQL> 
+SQL> -- Part IV
+SQL> 
+SQL> -- Select all data from Appt_qbd
+SQL> SELECT * FROM Appt_qbd ORDER BY ApptID;
+
+    APPTID APPTDATE  APPTTIME  PATIENTID BILLINGTYPE    INSCOID     PROVID APPTSTATUS PMTSTATUS                                                       
+---------- --------- -------- ---------- ----------- ---------- ---------- ---------- ---------                                                       
+       101 19-FEB-24 0900 AM         101 I                  323          2 CM         PD                                                              
+       102 19-FEB-24 0900 AM         100 I                  129          5 CM         PP                                                              
+       103 19-FEB-24 1000 AM          15 SP                   2          2 CM         PD                                                              
+       104 19-FEB-24 1030 AM          77 WC                 210          1 CM         PD                                                              
+       105 19-FEB-24 1030 AM         119 I                  129          2 CM         PP                                                              
+       106 19-FEB-24 1030 AM          97 SP                   3          3 CM         NP                                                              
+       107 19-FEB-24 1130 AM          28 WC                 129          3 CM         PP                                                              
+       108 21-FEB-24 1130 AM         105 I                  323          2 CM         NP                                                              
+       109 19-FEB-24 0200 PM          84 I                  135          5 CM         NP                                                              
+       110 20-FEB-24 0830 AM          84 I                  135          3 NC         NP                                                              
+       111 20-FEB-24 0830 AM          23 WC                 323          5 CN         NP                                                              
+
+    APPTID APPTDATE  APPTTIME  PATIENTID BILLINGTYPE    INSCOID     PROVID APPTSTATUS PMTSTATUS                                                       
+---------- --------- -------- ---------- ----------- ---------- ---------- ---------- ---------                                                       
+       112 21-FEB-24 0900 AM         120 SP                              2 NC         NP                                                              
+
+12 rows selected.
+
+SQL> -- (Display all rows from Appt_qbd)
+SQL> 
+SQL> -- Select all data from Patient_qbd
+SQL> SELECT * FROM Patient_qbd ORDER BY PatientID;
+
+ PATIENTID PATIENTFNAME         PATIENTLNAME         PHONE                                                                                            
+---------- -------------------- -------------------- ----------                                                                                       
+        15 Jeff                 Miner                4695552301                                                                                       
+        23 Shelby               Davis                8175551198                                                                                       
+        28 Renee                Walker               2145559285                                                                                       
+        77 Kim                  Jackson              8175554911                                                                                       
+        84 James                Clayton              2145559285                                                                                       
+       100 Brenda               Rhodes               2145551234                                                                                       
+       101 Wesley               Tanner               8175551193                                                                                       
+       119 Mary                 Vaughn               8175552334                                                                                       
+       120 Amanda               Green                                                                                                                 
+
+9 rows selected.
+
+SQL> -- (Display all rows from Patient_qbd)
+SQL> 
+SQL> -- Select all data from Billing_qbd
+SQL> SELECT * FROM Billing_qbd ORDER BY BillingType;
+
+BILLINGTYPE BILLINGTYPEDESC                                                                                                                           
+----------- --------------------                                                                                                                      
+I           Insurance                                                                                                                                 
+SP          Self Pay                                                                                                                                  
+WC          Workers Comp                                                                                                                              
+
+SQL> -- (Display all rows from Billing_qbd)
+SQL> 
+SQL> -- Select all data from Treatment_qbd
+SQL> SELECT * FROM Treatment_qbd ORDER BY TreatmentCode;
+
+CODE  TREATMENTDESC             TREATMENTRATE BLOCK                                                                                                   
+----- ------------------------- ------------- -----                                                                                                   
+BI    Back Injury                          60 L2                                                                                                      
+CI1   Cortizone Injection 1                50 L1                                                                                                      
+CI2   Cortizone Injection 1               100 L1                                                                                                      
+GBP   General Back Pain                    60 L2                                                                                                      
+NP    New Patient                          45 L1                                                                                                      
+PSF   Post Surgery Follow Up               30 L1                                                                                                      
+PT30  Physical Therapy 30                  60 L3                                                                                                      
+PT60  Physical Therapy 60                 110 L4                                                                                                      
+SR    Suture Removal                       50 L2                                                                                                      
+XR    X Ray                               250 L2                                                                                                      
+
+10 rows selected.
+
+SQL> -- (Display all rows from Treatment_qbd)
+SQL> 
+SQL> -- Select all data from BlockCode_qbd
+SQL> SELECT * FROM BlockCode_qbd ORDER BY BlockCode;
+
+BLOCK BLOCKDESC            BLOCKMINUTES                                                                                                               
+----- -------------------- ------------                                                                                                               
+L1    Level 1                        15                                                                                                               
+L2    Level 2                        20                                                                                                               
+L3    Level 3                        30                                                                                                               
+L4    Level 4                        60                                                                                                               
+
+SQL> -- (Display all rows from BlockCode_qbd)
+SQL> 
+SQL> -- Select all data from AppointmentStatus_qbd
+SQL> SELECT * FROM AppointmentStatus_qbd ORDER BY ApptStatusCode;
+
+APPTSTATUS APPTSTATUSDESC                                                                                                                             
+---------- --------------------                                                                                                                       
+CM         Complete                                                                                                                                   
+CN         Confirmed                                                                                                                                  
+NC         Not Confirmed                                                                                                                              
+PD         Paid in Full                                                                                                                               
+PP         Partial Pmt                                                                                                                                
+
+SQL> -- (Display all rows from AppointmentStatus_qbd)
+SQL> 
+SQL> -- Select all data from Insurance_qbd
+SQL> SELECT * FROM Insurance_qbd ORDER BY InsCoID;
+
+   INSCOID INSCONAME                                                                                                                                  
+---------- ---------------                                                                                                                            
+       129 Blue Cross                                                                                                                                 
+       135 TriCare                                                                                                                                    
+       210 State Farm                                                                                                                                 
+       323 Humana                                                                                                                                     
+
+SQL> -- (Display all rows from Insurance_qbd)
+SQL> 
+SQL> -- Select all data from Provider_qbd
+SQL> SELECT * FROM Provider_qbd ORDER BY ProvID;
+
+    PROVID PROVFNAME            PROVLNAME                                                                                                             
+---------- -------------------- --------------------                                                                                                  
+         1 Kay                  Jones                                                                                                                 
+         2 Michael              Smith                                                                                                                 
+         3 Ray                  Schultz                                                                                                               
+         5 Janice               May                                                                                                                   
+
+SQL> -- (Display all rows from Provider_qbd)
+SQL> 
+SQL> -- Select all data from ApptDetail_qbd
+SQL> SELECT * FROM ApptDetail_qbd ORDER BY ApptID, TreatmentCode;
+
+    APPTID CODE                                                                                                                                       
+---------- -----                                                                                                                                      
+       105 GBP                                                                                                                                        
+       112 CI2                                                                                                                                        
+       112 HP                                                                                                                                         
+       112 NP                                                                                                                                         
+
+SQL> -- (Display all rows from ApptDetail_qbd)
+SQL> 
+SQL> set echo OFF
